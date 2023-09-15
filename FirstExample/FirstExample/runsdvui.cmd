@@ -1,0 +1,2 @@
+cd /d "D:\project\TestCpp\WindwosDriverDevelopNote\FirstExample\FirstExample" &msbuild "FirstExample.vcxproj" /t:sdvViewer /p:configuration="Debug" /p:platform="x64" /p:SolutionDir="D:\project\TestCpp\WindwosDriverDevelopNote\FirstExample" 
+exit %errorlevel% 
