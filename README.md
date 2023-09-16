@@ -12,6 +12,7 @@
 - [設定主機的環境](#設定主機的環境)
 - [WDF 驅動範例](#wdf-驅動範例)
 - [測試驅動](#測試驅動)
+- [相關工具](#相關工具)
 - [參考](#參考)
 
 # 準備工作
@@ -73,10 +74,18 @@
 
 # 測試驅動
 
+- 使用 [OSR Driver Loader](https://www.osronline.com/article.cfm%5earticle=157.htm)或其它 Driver Loader 來載入及啟動驅動
+- 可透過[WinObj](https://learn.microsoft.com/en-us/sysinternals/downloads/winobj)來確認驅動的安裝是否成功
 - 在驅動內加入 `kdPrint` 來輸出訊息
 - 在測試機器上使用系統管理員打開[DebugView](https://learn.microsoft.com/zh-tw/sysinternals/downloads/debugview) , 並在 `Capture` 內找到 `Capture Kernal` 並打勾
-- 使用 [OSR Driver Loader](https://www.osronline.com/article.cfm%5earticle=157.htm)或其它 Driver Loader 來載入及啟動驅動
 - 如想進行更進一步的調試, 可參考 [Debug Windows drivers step-by-step lab (echo kernel mode)](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/debug-universal-drivers---step-by-step-lab--echo-kernel-mode-)
+
+# 相關工具
+
+- [WinDbg](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/)
+- [DebugView](https://learn.microsoft.com/en-us/sysinternals/downloads/debugview)
+- [WinObj](https://learn.microsoft.com/en-us/sysinternals/downloads/winobj)
+- [OSR Driver Loader](https://www.osronline.com/article.cfm%5earticle=157.htm)
 
 # 參考
 
@@ -85,3 +94,7 @@
 - [Other WDK downloads](https://learn.microsoft.com/en-us/windows-hardware/drivers/other-wdk-downloads)
 - [Windows SDK](https://developer.microsoft.com/en-us/windows/downloads/windows-sdk/)
 - [Debug Windows drivers step-by-step lab (echo kernel mode)](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/debug-universal-drivers---step-by-step-lab--echo-kernel-mode-)
+- [Install the Windows debugger](https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/)
+- [DebugView](https://learn.microsoft.com/en-us/sysinternals/downloads/debugview)
+- [WinObj](https://learn.microsoft.com/en-us/sysinternals/downloads/winobj)
+- [OSR Driver Loader](https://www.osronline.com/article.cfm%5earticle=157.htm)
