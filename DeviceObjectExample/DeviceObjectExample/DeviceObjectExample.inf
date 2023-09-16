@@ -1,0 +1,77 @@
+;
+; DeviceObjectExample.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=System ; TODO: specify appropriate Class
+ClassGuid={4d36e97d-e325-11ce-bfc1-08002be10318} ; TODO: specify appropriate ClassGuid
+Provider=%ManufacturerName%
+CatalogFile=DeviceObjectExample.cat
+DriverVer= ; TODO: set DriverVer in stampinf property pages
+PnpLockdown=1
+
+[DestinationDirs]
+DefaultDestDir = 12
+DeviceObjectExample_Device_CoInstaller_CopyFiles = 11
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+DeviceObjectExample.sys  = 1,,
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll=1 ; make sure the number matches with SourceDisksNames
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName%=Standard,NT$ARCH$
+
+[Standard.NT$ARCH$]
+%DeviceObjectExample.DeviceDesc%=DeviceObjectExample_Device, Root\DeviceObjectExample ; TODO: edit hw-id
+
+[DeviceObjectExample_Device.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+DeviceObjectExample.sys
+
+;-------------- Service installation
+[DeviceObjectExample_Device.NT.Services]
+AddService = DeviceObjectExample,%SPSVCINST_ASSOCSERVICE%, DeviceObjectExample_Service_Inst
+
+; -------------- DeviceObjectExample driver install sections
+[DeviceObjectExample_Service_Inst]
+DisplayName    = %DeviceObjectExample.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\DeviceObjectExample.sys
+
+;
+;--- DeviceObjectExample_Device Coinstaller installation ------
+;
+
+[DeviceObjectExample_Device.NT.CoInstallers]
+AddReg=DeviceObjectExample_Device_CoInstaller_AddReg
+CopyFiles=DeviceObjectExample_Device_CoInstaller_CopyFiles
+
+[DeviceObjectExample_Device_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll,WdfCoInstaller"
+
+[DeviceObjectExample_Device_CoInstaller_CopyFiles]
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll
+
+[DeviceObjectExample_Device.NT.Wdf]
+KmdfService =  DeviceObjectExample, DeviceObjectExample_wdfsect
+[DeviceObjectExample_wdfsect]
+KmdfLibraryVersion = $KMDFVERSION$
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="<Your manufacturer name>" ;TODO: Replace with your manufacturer name
+DiskName = "DeviceObjectExample Installation Disk"
+DeviceObjectExample.DeviceDesc = "DeviceObjectExample Device"
+DeviceObjectExample.SVCDESC = "DeviceObjectExample Service"
