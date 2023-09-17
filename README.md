@@ -72,6 +72,7 @@
 
 1. [第一個 WDF 驅動範例](FirstExample/FirstExample.md)
 2. [簡易設備物件的驅動範例](DeviceObjectExample/DeviceObjectExample.md)
+3. [簡易 PnP 裝置驅動](FirstPnPExample/FirstPnPExample.md)
 
 # 測試驅動
 
