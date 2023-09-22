@@ -1,0 +1,77 @@
+;
+; EchoDriverExample.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=System ; TODO: specify appropriate Class
+ClassGuid={4d36e97d-e325-11ce-bfc1-08002be10318} ; TODO: specify appropriate ClassGuid
+Provider=%ManufacturerName%
+CatalogFile=EchoDriverExample.cat
+DriverVer= ; TODO: set DriverVer in stampinf property pages
+PnpLockdown=1
+
+[DestinationDirs]
+DefaultDestDir = 12
+EchoDriverExample_Device_CoInstaller_CopyFiles = 11
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+EchoDriverExample.sys  = 1,,
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll=1 ; make sure the number matches with SourceDisksNames
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName%=Standard,NT$ARCH$
+
+[Standard.NT$ARCH$]
+%EchoDriverExample.DeviceDesc%=EchoDriverExample_Device, Root\EchoDriverExample ; TODO: edit hw-id
+
+[EchoDriverExample_Device.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+EchoDriverExample.sys
+
+;-------------- Service installation
+[EchoDriverExample_Device.NT.Services]
+AddService = EchoDriverExample,%SPSVCINST_ASSOCSERVICE%, EchoDriverExample_Service_Inst
+
+; -------------- EchoDriverExample driver install sections
+[EchoDriverExample_Service_Inst]
+DisplayName    = %EchoDriverExample.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\EchoDriverExample.sys
+
+;
+;--- EchoDriverExample_Device Coinstaller installation ------
+;
+
+[EchoDriverExample_Device.NT.CoInstallers]
+AddReg=EchoDriverExample_Device_CoInstaller_AddReg
+CopyFiles=EchoDriverExample_Device_CoInstaller_CopyFiles
+
+[EchoDriverExample_Device_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll,WdfCoInstaller"
+
+[EchoDriverExample_Device_CoInstaller_CopyFiles]
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll
+
+[EchoDriverExample_Device.NT.Wdf]
+KmdfService =  EchoDriverExample, EchoDriverExample_wdfsect
+[EchoDriverExample_wdfsect]
+KmdfLibraryVersion = $KMDFVERSION$
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="<Your manufacturer name>" ;TODO: Replace with your manufacturer name
+DiskName = "EchoDriverExample Installation Disk"
+EchoDriverExample.DeviceDesc = "EchoDriverExample Device"
+EchoDriverExample.SVCDESC = "EchoDriverExample Service"
