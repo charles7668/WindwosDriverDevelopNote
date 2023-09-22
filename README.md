@@ -40,7 +40,6 @@
 ## 啟用測試簽章
 
 - 使用系統管理員打開 CMD -> 輸入 `bcdedit /set TESTSIGNING ON `
-- 使用系統管理員打開 CMD -> 輸入 `bcdedit /set TESTSIGNING ON `
 
 ## 設定主機的 ip 位置
 
