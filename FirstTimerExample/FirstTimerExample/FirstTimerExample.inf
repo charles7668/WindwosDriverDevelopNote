@@ -1,0 +1,77 @@
+;
+; FirstTimerExample.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=System ; TODO: specify appropriate Class
+ClassGuid={4d36e97d-e325-11ce-bfc1-08002be10318} ; TODO: specify appropriate ClassGuid
+Provider=%ManufacturerName%
+CatalogFile=FirstTimerExample.cat
+DriverVer= ; TODO: set DriverVer in stampinf property pages
+PnpLockdown=1
+
+[DestinationDirs]
+DefaultDestDir = 12
+FirstTimerExample_Device_CoInstaller_CopyFiles = 11
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+FirstTimerExample.sys  = 1,,
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll=1 ; make sure the number matches with SourceDisksNames
+
+;*****************************************
+; Install Section
+;*****************************************
+
+[Manufacturer]
+%ManufacturerName%=Standard,NT$ARCH$
+
+[Standard.NT$ARCH$]
+%FirstTimerExample.DeviceDesc%=FirstTimerExample_Device, Root\FirstTimerExample ; TODO: edit hw-id
+
+[FirstTimerExample_Device.NT]
+CopyFiles=Drivers_Dir
+
+[Drivers_Dir]
+FirstTimerExample.sys
+
+;-------------- Service installation
+[FirstTimerExample_Device.NT.Services]
+AddService = FirstTimerExample,%SPSVCINST_ASSOCSERVICE%, FirstTimerExample_Service_Inst
+
+; -------------- FirstTimerExample driver install sections
+[FirstTimerExample_Service_Inst]
+DisplayName    = %FirstTimerExample.SVCDESC%
+ServiceType    = 1               ; SERVICE_KERNEL_DRIVER
+StartType      = 3               ; SERVICE_DEMAND_START
+ErrorControl   = 1               ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\FirstTimerExample.sys
+
+;
+;--- FirstTimerExample_Device Coinstaller installation ------
+;
+
+[FirstTimerExample_Device.NT.CoInstallers]
+AddReg=FirstTimerExample_Device_CoInstaller_AddReg
+CopyFiles=FirstTimerExample_Device_CoInstaller_CopyFiles
+
+[FirstTimerExample_Device_CoInstaller_AddReg]
+HKR,,CoInstallers32,0x00010000, "WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll,WdfCoInstaller"
+
+[FirstTimerExample_Device_CoInstaller_CopyFiles]
+WdfCoInstaller$KMDFCOINSTALLERVERSION$.dll
+
+[FirstTimerExample_Device.NT.Wdf]
+KmdfService =  FirstTimerExample, FirstTimerExample_wdfsect
+[FirstTimerExample_wdfsect]
+KmdfLibraryVersion = $KMDFVERSION$
+
+[Strings]
+SPSVCINST_ASSOCSERVICE= 0x00000002
+ManufacturerName="<Your manufacturer name>" ;TODO: Replace with your manufacturer name
+DiskName = "FirstTimerExample Installation Disk"
+FirstTimerExample.DeviceDesc = "FirstTimerExample Device"
+FirstTimerExample.SVCDESC = "FirstTimerExample Service"
