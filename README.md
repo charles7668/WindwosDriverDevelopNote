@@ -106,3 +106,4 @@
 - [DebugView](https://learn.microsoft.com/en-us/sysinternals/downloads/debugview)
 - [WinObj](https://learn.microsoft.com/en-us/sysinternals/downloads/winobj)
 - [OSR Driver Loader](https://www.osronline.com/article.cfm%5earticle=157.htm)
+- [Windows Driver Frameworks](https://learn.microsoft.com/en-us/windows-hardware/drivers/wdf/)
